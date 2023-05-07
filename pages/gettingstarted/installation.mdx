@@ -1,0 +1,86 @@
+# Installation
+*Note: flywheel is in beta right now. There are edge cases that the library hasn't acocunted for yet.*
+
+ ## Installing flywheel via npm
+ flywheel is a github package and can be installed by running the following in your terminal:
+    ```bash {3} copy
+    npm install @dylanintech/flywheel-leaderboard
+    ```
+    If that doesn't work - it might be an error with the github auth token. Set up a call w/ me for support [here](https://cal.com/dylan-molina/15min).
+ ## Installing tailwindcss
+    flywheel uses [tailwindcss](https://tailwindcss.com/) for styling, so you'll need to install that as well if you're not already using it in your app. Installing tailwind will look a little different depending on your framework.
+    ### React
+    First install tailwind via npm and initialize it
+        ```bash {3} copy
+        npm install -D tailwindcss
+        npx tailwindcss init -p
+        ```
+    A file called `tailwind.config.cjs` will pop up in your file structure. Head over there and change it to look this:
+        ```js {3} copy
+       /** @type {import('tailwindcss').Config} */
+
+       module.exports = {
+       content: [
+       "./src/**/*.{js,jsx,ts,tsx}",
+
+       // Path to the tremor module
+       "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+       ],
+       theme: {
+       extend: {},
+       },
+       plugins: [],
+       }
+        ```
+    Finally head over to `./src/index.css`, remove everything that was there before, and add this:
+        ```css {3} copy
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+        ```
+    ### Next.js
+    Install tailwind via npm and initialize it w/ postcss as well
+        ```bash {3} copy
+        npm install -D tailwindcss postcss autoprefixer 
+        npx tailwindcss init -p
+        ```
+    A file called `tailwind.config.cjs` will pop up in your file structure. If you're using the `/src` directory you'll wanna update it like so:
+        ```js {3} copy
+        /** @type {import('tailwindcss').Config} */
+        module.exports = {
+        content: [
+        // If using the src directory, add:
+        "./src/**/*.{js,ts,jsx,tsx,mdx}",
+        "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // tremor module
+
+        ],
+        theme: {
+        extend: {},
+        },
+        plugins: [],
+        }
+        ```
+    Using the `/app` directory? Update it to this then:
+        ```js {3} copy
+        /** @type {import('tailwindcss').Config} */
+        module.exports = {
+        content: [
+        './pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './components/**/*.{js,ts,jsx,tsx,mdx}',
+        './app/**/*.{js,ts,jsx,tsx,mdx}',
+        "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // tremor module
+
+        ],
+        theme: {
+        extend: {},
+        },
+        plugins: [],
+        }
+        ```
+    Finally, add the tailwind directives to your `globals.css` file:
+        ```css {3} copy
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+        ```
+    

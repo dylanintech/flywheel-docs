@@ -1,0 +1,204 @@
+# Using the leaderboard
+Sick! Now you're ready to start using the Leaderboard component in your app.
+## Import the `Leaderboard` component
+```js {3} copy
+import { Leaderboard } from "@dylanintech/flywheel-leaderboard";
+```
+## Add the component to your jsx
+```jsx {3-5} copy
+return (
+    ///...other jsx
+    <Leaderboard 
+      className='max-w-4xl' //tailwind class (optional)
+      theme='amber' //leaderboard theme. see docs for accepted values (optional)
+      scoringMetric="users" //the property you wanna rank your data by (required)
+      id="name" //the property you wanna id each item in your data by (required)
+      cell1="twitter_handle" //the first cell for your board (optional)
+      cell2="github_username" //...
+      cell3="users" //...
+      cell4="twitter_followers" //...
+      cell5="github_stars" //...
+      items={data} //the data you wanna use for your board. e.g. db response. (required)
+      > 
+    </Leaderboard>
+    ///other jsx...
+ );
+```
+### props
+**className**  `optional`
+- a tailwind class to style the leaderboard card 
+- if nothing is passed, width defaults to medium
+```jsx {3} copy
+//examples
+
+//small width
+<Leaderboard className='max-w-sm' />
+
+//some horizontal padding
+<Leaderboard className='px-2' />
+```
+---------------------------
+
+**theme**  `optional`
+- a color theme for the leaderboard's text from the [tremor](https://www.tremor.so/) color palette.
+- if nothing is passed, theme defaults to purple
+- accepted values:
+<img src="https://media.discordapp.net/attachments/993733319386730541/1104885832650850416/Screenshot_2023-05-07_at_4.39.22_PM.png?width=2132&height=1246"></img>
+
+---------------------------
+
+**scoringMetric**  `required`
+-  this property is super important! it dictates how your leaderboard ranks it's items. here's how it works.
+
+Let's assume that I have a table called `profiles` in my database that represents all the users that have signed up on my app. 
+
+Let's further assume that this is how I'm fetching the user from the table in my `pages/index.js` file:
+``` js {3-5} copy
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+        const getUsers = async () => {
+            try {
+                setLoading(true);
+                const { data, error } = await supabase
+                .from('profiles')
+                .select('*') 
+
+                if (data) {
+                    setUsers(data);
+                }
+            } catch (error) {
+                console.log(error);
+                setUsers([]);
+            } finally {
+                setLoading(false);
+            }
+        }
+        getUsers();
+    }, [supabase]);
+```
+If every user had a property called `points` and we wanted to construct a leaderboard based with descending points we would pass this to the `Leaderboard` component:
+```jsx {3-5} copy
+<Leaderboard 
+  //...other props
+  scoringMetric="points" 
+  items={users}>
+  //other props...
+</Leaderboard>
+```
+It's super important that the string you set `scoringMetric` equal to matches the name of the property you want to rank your data by. For example, this would fail:
+```jsx {3-5} copy
+<Leaderboard 
+  //...other props
+  scoringMetric="Points" //fails because "Points" !== "points"
+  items={users}>
+  //other props...
+</Leaderboard>
+```
+---------------------------
+**id**  `required`
+- this propety is also pretty important. think of it as the primary key for each item in your data (accoridng to the leaderboard). It's best practice to key each item and sets up the component to be able to handle further extension later down the road.
+Let's say that each user object in your `users` array has a property called `full_name` that is unique to each user. We would pass this to the `Leaderboard` component:
+
+
+```jsx {3-5} copy
+<Leaderboard 
+  //...other props
+  id="full_name"
+  items={users}>
+  //other props...
+</Leaderboard>
+```
+Again, this would not work:
+``` jsx {3-5} copy
+<Leaderboard 
+  //...other props
+  id="fullName" //fails because "fullName" !== "full_name"
+  items={users}>
+  //other props...
+</Leaderboard>
+```
+Unfortunately as of `v0.0.9` you can only set `id` equal to a value with the `String` type, so if you wanna set `id` equal to any other type of property you would need to convert it to a string first.
+
+---------------------------
+**cells**  `optional`
+- these are the cells for your leaderboard. 
+- you can have from anywhere from 0 to 5 cells (they're all optional)
+
+Think of these cells as cells on a spreadsheet. Each cell is essentially a column of properties. For example, let's say the users in my `users` array have the following properties:
+```js {3-5} copy
+[
+  {
+    name: 'dylan',
+    twitter_handle: '@dxlantxch',
+    github_username: '@dylanintech',
+    users: 40,
+    twitter_followers: 1055,
+    github_stars: 5,
+  },
+  {
+    name: 'arib',
+    twitter_handle: '@aribk24',
+    github_username: '@Aribk7',
+    users: 105000,
+    twitter_followers: 4949,
+    github_stars: 4,
+  },
+  {
+    name: 'aleem',
+    twitter_handle: '@aleemrehmtulla',
+    github_username: '@aleemrehmtulla',
+    users: 50000,
+    twitter_followers: 4107,
+    github_stars: 200,
+  },
+  {
+    name: 'rochan',
+    twitter_handle: '@0xSxlty',
+    github_username: '@0xSxlty',
+    users: 40000,
+    twitter_followers: 2226,
+    github_stars: 4,
+  }
+]
+```
+Let's say I wanted to create a leaderboard that ranked users by the number of users they had - but I still wanted to recognize their other achievements. I could do this by passing the following to the `Leaderboard` component:
+```jsx {3-5} copy
+<Leaderboard 
+  //...other props
+  scoringMetric="users" 
+  id="name"
+  cell1="twitter_handle"
+  cell2="github_username"
+  cell3="users"
+  cell4="twitter_followers"
+  cell5="github_stars"
+  items={users}>
+  //other props...
+</Leaderboard>
+```
+This would create a leaderboard that looks something like this:
+<img src="https://media.discordapp.net/attachments/993733319386730541/1104897797527961630/Screenshot_2023-05-07_at_1.17.28_PM.png?width=2518&height=942"></img>
+
+---------------------------
+**items**  `required`
+- This is the most important prop. it's the data that the leaderboard will organize and render. If you don't pass this prop, the leaderboard will not render. 
+
+In our running example we would pass the `users` array to the `items` prop:
+```jsx {3-5} copy
+<Leaderboard 
+  //...other props
+  scoringMetric="users" 
+  id="name"
+  cell1="twitter_handle"
+  cell2="github_username"
+  cell3="users"
+  cell4="twitter_followers"
+  cell5="github_stars"
+  items={users}>
+  //other props...
+</Leaderboard>
+```
+Since items is set equal to a dynamic array that is being fetched from our database whenever our app re-renders the leaderboard will automatically update to reflect the new rankings, with no hassle on your end.
+

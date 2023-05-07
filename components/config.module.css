@@ -1,0 +1,12 @@
+.logoTextContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    align-items: center;
+}
+
+.logo {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+}

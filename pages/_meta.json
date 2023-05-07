@@ -1,15 +1,11 @@
 {
   "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
+  "gettingstarted": "Getting Started",
+
   "contact": {
-    "title": "Contact ↗",
+    "title": "talk to me ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://twitter.com/dxlantxch",
     "newWindow": true
   }
 }
