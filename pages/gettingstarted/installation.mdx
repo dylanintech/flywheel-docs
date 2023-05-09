@@ -3,12 +3,18 @@
 
  ## Installing flywheel via npm
  flywheel is a github package and can be installed by running the following in your terminal:
-    ```bash {3} copy
+    ``` bash {3} copy
     npm install @dylanintech/flywheel-leaderboard
     ```
-    If that doesn't work - it might be an error with the github auth token. Set up a call w/ me for support [here](https://cal.com/dylan-molina/15min).
+    
+ After running this you should be asked for a github authentication token. Just enter this:
+   ``` bash {3) copy
+    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
+   ```
+*I know that having to enter a token to access the library is not optimal - so i'm working to port the library over to npm completely.*
+   
  ## Installing tailwindcss
-    flywheel uses [tailwindcss](https://tailwindcss.com/) for styling, so you'll need to install that as well if you're not already using it in your app. Installing tailwind will look a little different depending on your framework.
+flywheel uses [tailwindcss](https://tailwindcss.com/) for styling, so you'll need to install that as well if you're not already using it in your app. Installing tailwind will look a little different depending on your framework.
     ### React
     First install tailwind via npm and initialize it
         ```bash {3} copy
