@@ -2,16 +2,12 @@
 *Note: flywheel is in beta right now. There are edge cases that the library hasn't acocunted for yet.*
 
  ## Installing flywheel via npm
- flywheel is a github package and can be installed by running the following in your terminal:
+ flywheel is an [npm package](https://www.npmjs.com/package/flywheel-leaderboard) and can be installed by running the following in your terminal:
     ``` bash {3} copy
-    npm install @dylanintech/flywheel-leaderboard
+    npm i flywheel-leaderboard
     ```
     
- After running this you should be asked for a github authentication token. Just enter this:
-   ``` bash {3) copy
-    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
-   ```
- *I know that having to enter a token to access the library is not optimal - so i'm working to port the library over to npm completely.*
+ **Make sure to download the npm package and not the github package. The github package requires a personal access token.**
    
  ## Installing tailwindcss
 flywheel uses [tailwindcss](https://tailwindcss.com/) for styling, so you'll need to install that as well if you're not already using it in your app. Installing tailwind will look a little different depending on your framework.
@@ -94,16 +90,3 @@ flywheel uses [tailwindcss](https://tailwindcss.com/) for styling, so you'll nee
         @tailwind components;
         @tailwind utilities;
         ```
-   
-## production apps
-If you're deloying your app to production or wanna push to `main` after installing the library you're gonna have to do this first in order to have the proper auth:
-### create a `.npmrc` file form your terminal
-``` bash {3} copy
-nano .npmrc
-```
-### paste the following into the `.npmrc` terminal that appears
-``` bash {3} copy
-//npm.pkg.github.com/:_authToken=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
-```
-### type `ctrl + o` into the `.npmrc` terminal to save what you just pasted and then type `ctrl + x` to exit the `.npmrc` terminal after the terminal says `wrote 1 line`
-*Make sure to commit this to `main`! Do not add the `.npmrc` file to gitignore or your deployment provider won't be able to install the package. After I port the library to npm soon you won't have to do any of this* :)
