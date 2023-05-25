@@ -90,3 +90,11 @@ flywheel uses [tailwindcss](https://tailwindcss.com/) for styling, so you'll nee
         @tailwind components;
         @tailwind utilities;
         ```
+  ### 🚨 If you have issues when installing the library such as this error:
+        ```
+         Error: ENOENT: no such file or directory, open '/Users/user/Dev/personal/space-cmdr/node_modules/flywheel-leaderboard/src/components/Leaderboard/Leaderboard.tsx'
+        ```
+    Then try adding this in your `package.json`:
+    ```js {3} copy
+         "start": "GENERATE_SOURCEMAP=false react-scripts start",
+    ```
